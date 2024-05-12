@@ -1,23 +1,27 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
-@Table
+@Table(name = "customer")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class customer {
 
-    @jakarta.persistence.Id
+public class Customer {
+
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int id;
     @NotBlank(message = "This field is required")
@@ -34,5 +38,12 @@ public class customer {
     public String mothername;
     public String fathername;
     public Gender gender;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private List<Address> Addresses;
+    //TODO : birth date eklenecek
+    //TODO : national id 11 karakterleri bir pozitif tam sayı girmesini sağlanacak
+
 
 }
