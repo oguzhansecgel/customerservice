@@ -21,7 +21,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int id;
     @NotBlank(message = "This field is required")
@@ -37,11 +37,17 @@ public class Customer {
     public String nationalId;
     public String mothername;
     public String fathername;
+    @NotBlank
+    @Size(max = 11,min = 11,message = "GSM numarası formatında başında 0 olacak şekilde 11 haneli veri girişi yapınız")
+    public String gsmnumber;
     public Gender gender;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Address> Addresses;
+
+
+
     //TODO : birth date eklenecek
     //TODO : national id 11 karakterleri bir pozitif tam sayı girmesini sağlanacak
 

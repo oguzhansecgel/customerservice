@@ -12,7 +12,8 @@ import java.util.List;
 public interface customerrepository extends JpaRepository<Customer, Integer> {
 
 
-    List<Customer> findByNameOrLastnameOrNationalId(String name, String lastname, String nationalId);
+    List<Customer> findByNameOrLastnameOrNationalIdOrGsmnumberOrId(String name, String lastname, String nationalId,String gsmnumber,int id);
+
     @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT(:nameStart, '%'))")
     List<Customer> findByFirstNameStartingWithIgnoreCase(@Param("nameStart") String nameStart);
 
