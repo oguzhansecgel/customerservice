@@ -31,15 +31,20 @@ public class addresscontroller {
         return addressservice.getAll();
     }
     @PostMapping
-    public ResponseEntity<AddAddressResponse> createAddress(@RequestBody AddAddressRequest request)
+    public ResponseEntity<Address> createAddress(@RequestBody AddAddressRequest request)
     {
-        AddAddressResponse response = addressservice.createAddress(request);
+        Address response = addressservice.createAddress(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
-        return ResponseEntity.created(location).body(response);
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/addresses")
     public ResponseEntity<List<GetByCustomerAddress>> findByCustomerId(@RequestParam int customerId) {
         List<GetByCustomerAddress> addresses = addressservice.findByCustomerId(customerId);
         return ResponseEntity.ok(addresses);
+    }
+    @DeleteMapping("DeleteAddress")
+    public void deletedAddress(@RequestParam int id)
+    {
+        addressservice.deleteAddress(id);
     }
 }

@@ -37,7 +37,7 @@ public class customercontroller {
                                          @RequestParam(required = false) String lastName,
                                          @RequestParam(required = false) String nationalId,
                                          @RequestParam(required = false) String gsmnumber,
-                                         @RequestParam(required = false) int id) {
+                                         @RequestParam(required = false) Integer id) {
         return customerservice.findCustomers(name, lastName, nationalId,gsmnumber,id);
     }
     @GetMapping("FindByStartName")

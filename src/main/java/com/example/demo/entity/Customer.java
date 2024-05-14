@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,8 @@ public class Customer {
     public String nationalId;
     public String mothername;
     public String fathername;
+    @Column(name = "birth_date")
+    public Date birthdate;
     @NotBlank
     @Size(max = 11,min = 11,message = "GSM numarası formatında başında 0 olacak şekilde 11 haneli veri girişi yapınız")
     public String gsmnumber;

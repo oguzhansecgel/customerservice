@@ -26,7 +26,7 @@ public class customerserviceimpl implements customerservice{
     private final ModelMapperService modelMapperService;
 
     @Override
-    public List<Customer> findCustomers(String name, String lastname, String nationalId, String gsmnumber,int id) {
+    public List<Customer> findCustomers(String name, String lastname, String nationalId, String gsmnumber,Integer id) {
         if (gsmnumber != null) {
             if (gsmnumber.length() != 11) {
                 throw new BusinessException("GSM number must be 11 characters long");

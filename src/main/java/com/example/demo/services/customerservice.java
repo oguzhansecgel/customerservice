@@ -13,7 +13,7 @@ import java.util.List;
 public interface customerservice {
     List<Customer> getByAllCustomer();
     Customer getByIdCustomer(int id);
-    List<Customer> findCustomers(String name, String lastname, String nationalId,String gsmnumber,int id);
+    List<Customer> findCustomers(String name, String lastname, String nationalId,String gsmnumber,Integer id);
     List<Customer> findByFirstNameStartingWithIgnoreCase(String nameStart);
 
     Customer addCustomers(Customer customer);

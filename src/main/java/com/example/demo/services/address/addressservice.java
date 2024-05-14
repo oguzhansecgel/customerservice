@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface addressservice {
     Address updateAddress(Address address);
-    AddAddressResponse createAddress(AddAddressRequest request);
+    Address createAddress(AddAddressRequest request);
     void deleteAddress(int id);
     List<Address> getAll();
     List<GetByCustomerAddress> findByCustomerId(int customerId);
+
 
 }
