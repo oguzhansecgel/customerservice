@@ -4,8 +4,10 @@ import com.example.demo.Exception.type.BusinessException;
 import com.example.demo.entity.Address;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.dto.AddressDto.AddressRequest.AddAddressRequest;
+import com.example.demo.entity.dto.AddressDto.AddressRequest.UpdateAddressRequest;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.AddAddressResponse;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.GetByCustomerAddress;
+import com.example.demo.entity.dto.AddressDto.AddressResponse.UpdateAddressResponse;
 import com.example.demo.mapper.ModelMapperService;
 import com.example.demo.repository.addressrepository;
 import com.example.demo.repository.customerrepository;
@@ -33,18 +35,24 @@ public class addressserviceimpl implements addressservice{
 
     @Override
     public Address createAddress(AddAddressRequest request) {
-        // İlgili müşteriyi veritabanından alın
         Customer customer = customerrepository.findById(request.getCustomerId())
                 .orElseThrow(() -> new BusinessException("Customer not found with id: " + request.getCustomerId()));
 
-        // Yeni bir adres oluşturun ve müşteriyi atayın
         Address newAddress = modelMapperService.forRequest().map(request, Address.class);
         newAddress.setCustomer(customer);
 
-        // Adresi kaydedin
 
        return addressrepository.save(newAddress);
         //return //new AddAddressResponse(savedAddress.getId(), savedAddress.getCity());
+    }
+
+    @Override
+    public UpdateAddressResponse updateAddress(UpdateAddressRequest request) {
+
+        Address address = modelMapperService.forRequest().map(request, Address.class);
+        Address savedAddres = addressrepository.saveAndFlush(address);
+
+        return new UpdateAddressResponse(savedAddres.getId(),savedAddres.getCity(),savedAddres.getCustomer().getId());
     }
 
     @Override

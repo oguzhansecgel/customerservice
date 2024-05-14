@@ -24,31 +24,34 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public int id;
+    private int id;
     @NotBlank(message = "This field is required")
     @Size(max = 50,message = "Maksimum 50 karakterlik veri girişi yapınız.")
-    public String name;
+    private String name;
     @Column(name = "middlename")
     @Size(max = 50,message = "Maksimum 50 karakterlik veri girişi yapınız.")
-    public String middleName;
+    private String middleName;
     @NotBlank(message = "This field is required")
     @Size(max = 50,message = "Maksimum 50 karakterlik veri girişi yapınız.")
-    public String lastname;
+    private String lastname;
     @NotBlank(message = "This field is required")
-    public String nationalId;
-    public String mothername;
-    public String fathername;
+    private String nationalId;
+    private String mothername;
+    private String fathername;
     @Column(name = "birth_date")
-    public Date birthdate;
-    @NotBlank
+    private Date birthdate;
+   @NotBlank
     @Size(max = 11,min = 11,message = "GSM numarası formatında başında 0 olacak şekilde 11 haneli veri girişi yapınız")
-    public String gsmnumber;
-    public Gender gender;
+    private String gsmnumber;
+    private Gender gender;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Address> Addresses;
 
+    @JsonIgnore
+    @OneToOne(mappedBy ="customer")
+    private ContactMedium contactMedium;
 
 
     //TODO : birth date eklenecek

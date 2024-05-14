@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Address;
 import com.example.demo.entity.dto.AddressDto.AddressRequest.AddAddressRequest;
+import com.example.demo.entity.dto.AddressDto.AddressRequest.UpdateAddressRequest;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.AddAddressResponse;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.GetByCustomerAddress;
+import com.example.demo.entity.dto.AddressDto.AddressResponse.UpdateAddressResponse;
 import com.example.demo.services.address.addressservice;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -46,5 +48,13 @@ public class addresscontroller {
     public void deletedAddress(@RequestParam int id)
     {
         addressservice.deleteAddress(id);
+    }
+
+    @PutMapping("UpdateAddress")
+    public ResponseEntity<UpdateAddressResponse> updateAddress(@RequestBody UpdateAddressRequest request)
+    {
+        UpdateAddressResponse response = addressservice.updateAddress(request);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+        return ResponseEntity.ok(response);
     }
 }
