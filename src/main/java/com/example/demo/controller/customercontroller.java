@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Address;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.dto.AddressDto.AddressResponse.AddAddressResponse;
+import com.example.demo.entity.CustomerInvoice;
 import com.example.demo.entity.dto.CustomerDto.Request.UpdateCustomerRequest;
 import com.example.demo.entity.dto.CustomerDto.Response.UpdateCustomerResponse;
 import com.example.demo.services.customerservice;
@@ -20,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class customercontroller {
 
-    public customerservice customerservice;
+   private final customerservice customerservice;
 
     @GetMapping("GetAll")
     public List<Customer> getAllCustomer()
@@ -36,9 +35,8 @@ public class customercontroller {
     public List<Customer> getByParamsAll(@RequestParam(required = false) String name,
                                          @RequestParam(required = false) String lastName,
                                          @RequestParam(required = false) String nationalId,
-                                         @RequestParam(required = false) String gsmnumber,
                                          @RequestParam(required = false) Integer id) {
-        return customerservice.findCustomers(name, lastName, nationalId,gsmnumber,id);
+        return customerservice.findCustomers(name, lastName, nationalId,id);
     }
     @GetMapping("FindByStartName")
     public List<Customer> getByLikeName(@RequestParam(required = false) String startName)
@@ -63,5 +61,6 @@ public class customercontroller {
     {
         customerservice.deleteCustomer(id);
     }
+
 }
 

@@ -41,5 +41,4 @@ public class Address {
     @JoinColumn(name = "customer_id")
     public Customer customer;
 
-
 }

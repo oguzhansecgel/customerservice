@@ -19,12 +19,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Customer {
+public class Customer  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
+
+    @Column(name = "account_number")
+    private int accountNumber;
+
     @NotBlank(message = "This field is required")
     @Size(max = 50,message = "Maksimum 50 karakterlik veri girişi yapınız.")
     private String name;
@@ -40,9 +43,7 @@ public class Customer {
     private String fathername;
     @Column(name = "birth_date")
     private Date birthdate;
-   @NotBlank
-    @Size(max = 11,min = 11,message = "GSM numarası formatında başında 0 olacak şekilde 11 haneli veri girişi yapınız")
-    private String gsmnumber;
+
     private Gender gender;
 
     @JsonIgnore
@@ -53,6 +54,9 @@ public class Customer {
     @OneToOne(mappedBy ="customer")
     private ContactMedium contactMedium;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<CustomerInvoice> invoices;
 
     //TODO : birth date eklenecek
     //TODO : national id 11 karakterleri bir pozitif tam sayı girmesini sağlanacak

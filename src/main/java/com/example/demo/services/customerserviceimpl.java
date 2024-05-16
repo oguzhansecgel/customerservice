@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.Exception.type.BusinessException;
 import com.example.demo.entity.Address;
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.CustomerInvoice;
 import com.example.demo.entity.Gender;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.AddAddressResponse;
 import com.example.demo.entity.dto.AddressDto.AddressResponse.GetByCustomerAddress;
@@ -26,24 +27,10 @@ public class customerserviceimpl implements customerservice{
     private final ModelMapperService modelMapperService;
 
     @Override
-    public List<Customer> findCustomers(String name, String lastname, String nationalId, String gsmnumber,Integer id) {
-        if (gsmnumber != null) {
-            if (gsmnumber.length() != 11) {
-                throw new BusinessException("GSM number must be 11 characters long");
-            }
+    public List<Customer> findCustomers(String name, String lastname, String nationalId,Integer id) {
 
-            // Pozitif bir tam sayı olup olmadığını kontrol edin
-            try {
-                long gsmNumber2 = Long.parseLong(gsmnumber);
-                if (gsmNumber2 <= 0) {
-                    throw new BusinessException("GSM number must be a positive integer");
-                }
-            } catch (NumberFormatException e) {
-                throw new BusinessException("GSM number must be a valid integer");
-            }
-        }
 
-        List<Customer> customers = customerrepository.findByNameOrLastnameOrNationalIdOrGsmnumberOrId(name, lastname, nationalId, gsmnumber,id);
+        List<Customer> customers = customerrepository.findByNameOrLastnameOrNationalIdOrId(name, lastname, nationalId,id);
         if (customers.isEmpty()) {
             throw new BusinessException("No customer found! Would you like to create the customer?");
         }
@@ -55,6 +42,7 @@ public class customerserviceimpl implements customerservice{
     public List<Customer> findByFirstNameStartingWithIgnoreCase(String nameStart) {
         return customerrepository.findByFirstNameStartingWithIgnoreCase(nameStart);
     }
+
 
     @Override
     public Customer getByIdCustomer(int id) {
@@ -68,22 +56,7 @@ public class customerserviceimpl implements customerservice{
 
     @Override
     public Customer addCustomers(Customer customer) {
-        // GSM numarasının uzunluğunu kontrol edin
-        if (customer.getGsmnumber().length() != 11) {
-            throw new BusinessException("GSM number must be 11 characters long");
-        }
 
-        // Pozitif bir tam sayı olup olmadığını kontrol edin
-        try {
-            long gsmNumber = Long.parseLong(customer.getGsmnumber());
-            if (gsmNumber <= 0) {
-                throw new BusinessException("GSM number must be a positive integer");
-            }
-        } catch (NumberFormatException e) {
-            throw new BusinessException("GSM number must be a valid integer");
-        }
-
-        // Diğer kontrolleri yapın ve müşteriyi kaydedin
         boolean hasNationalId = customerrepository.existsByNationalId(customer.getNationalId());
         if (hasNationalId) {
             throw new BusinessException("A customer is already exist with this Nationality ID");
@@ -99,15 +72,7 @@ public class customerserviceimpl implements customerservice{
         }
         Customer customer = this.modelMapperService.forRequest().map(request,Customer.class);
         Customer savedCustomer = customerrepository.saveAndFlush(customer);
-        return new UpdateCustomerResponse(savedCustomer.getId(),
-                savedCustomer.getName(),
-                savedCustomer.getMiddleName(),
-                savedCustomer.getLastname(),
-                savedCustomer.getNationalId(),
-                savedCustomer.getMothername(),
-                savedCustomer.getFathername(),
-                savedCustomer.getGender(),
-                savedCustomer.getGsmnumber());
+        return new UpdateCustomerResponse();
     }
 
     @Override

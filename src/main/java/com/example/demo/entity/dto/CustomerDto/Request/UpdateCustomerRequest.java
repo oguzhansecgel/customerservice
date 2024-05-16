@@ -18,7 +18,6 @@ public class UpdateCustomerRequest {
     private String lastname;
     private String nationalId;
     private String mothername;
-    private String Gsmnumber;
     private String fathername;
     private Gender gender;
 }

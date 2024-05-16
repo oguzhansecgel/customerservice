@@ -14,5 +14,4 @@ public class AddAddressRequest {
     private String houseNumber;
     private String addressDescription;
     public int customerId;
-
 }

@@ -48,11 +48,13 @@ public class addressserviceimpl implements addressservice{
 
     @Override
     public UpdateAddressResponse updateAddress(UpdateAddressRequest request) {
-
         Address address = modelMapperService.forRequest().map(request, Address.class);
-        Address savedAddres = addressrepository.saveAndFlush(address);
+        Address savedAddress = addressrepository.saveAndFlush(address);
 
-        return new UpdateAddressResponse(savedAddres.getId(),savedAddres.getCity(),savedAddres.getCustomer().getId());
+        // CustomerId'yi Base Entity'den al
+        int customerId = savedAddress.getCustomer().getId();
+
+        return new UpdateAddressResponse(savedAddress.getId(), savedAddress.getCity(), customerId);
     }
 
     @Override
